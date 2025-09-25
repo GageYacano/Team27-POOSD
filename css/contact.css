@@ -1,11 +1,11 @@
 /* page background + body font style */
 body {
-    
-    background-image: url("../images/background.png");  
-    background-size: cover;               
-    background-repeat: no-repeat;         
-    background-attachment: fixed;         
-    background-position: center center;          
+
+    /*background-image: url("../images/background.png");  */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -17,8 +17,7 @@ body {
 }
 
 /* title text */
-#title 
-{
+#title {
     font-size: 3vw;
     margin-bottom: auto;
     text-align: center;
@@ -28,23 +27,23 @@ body {
 
 /* Edit Contact popup (same styling as Add Contact) */
 #editContactDiv {
-  color: #FFFFFF;
-  display: none;
-  font-size: 18px;
-  width: 50%;
-  margin-left: 25%;
-  padding: 25px;
-  background-color: rgba(0, 0, 0, .4);
-  padding: 20px 20px;
+    color: #FFFFFF;
+    display: none;
+    font-size: 18px;
+    width: 50%;
+    margin-left: 25%;
+    padding: 20px 20px;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 25px;
 }
 
 #editContactDiv input {
-  margin: 8px 0;
-  padding: 10px;
-  width: 60%;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+    margin: 8px 0;
+    padding: 10px;
+    width: 60%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
 }
 
 #editContactResult {
@@ -58,28 +57,26 @@ body {
 }
 
 
-
 /* Add Contact form */
 #addContactDiv {
-  display: none;
-  font-size: 18px;
-  width: 50%;
-  margin-left: 25%;
-  padding: 25px;
-  background-color: rgba(0, 0, 0, .4);
-  /* black with 50% opacity */
-  padding: 20px 20px;
-  color: #FFFFFF
+    display: none;
+    font-size: 18px;
+    width: 50%;
+    margin-left: 25%;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 25px;
+    padding: 20px 20px;
+    color: #FFFFFF
 }
 
 #addContactDiv input {
-  margin: 8px 0;
-  padding: 10px;
-  width: 60%;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  color: #000000
+    margin: 8px 0;
+    padding: 10px;
+    width: 60%;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #000000
 }
 
 #addContactResult {
@@ -94,102 +91,101 @@ body {
 
 /* Base button style */
 .button {
-  font-size: 16px;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  cursor: pointer;
-  background-color: #335AAE;
-  color: #FFFFFF;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #335AAE;
+    color: #FFFFFF;
 }
 
 /* what buttons look like when hovered */
 .button:hover {
-  background-color: #335AAE;
-  color: #FFFFFF;
-  opacity: 50%;
+    background-color: #335AAE;
+    color: #FFFFFF;
+    opacity: 50%;
 }
 
 .button.logout {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  border-radius: 20px; 
-  font-size: 16px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
 }
 
 /* holds the search bar and Add Contact button */
 .search-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 60%;
-  margin: 0 auto 20px auto; /* centers the row */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto 20px auto; /* centers the row */
 }
 
 /* search bar styling */
 #searchBar {
-  flex: 1;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 25px;
-  border: 1px solid #ccc;
-  margin-right: 10px; /* space between search and button */
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    margin-right: 10px; /* space between search and button */
 }
 
 /* Add Contact button stays as-is */
 .button.add-contact {
-  height: 40px;
-  padding: 0 20px;
-  font-size: 16px;
-  border-radius: 20px;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 20px;
 }
-
 
 
 .button.small {
-  font-size: 12px;
-  padding: 5px 10px;
-  margin: 2px;
-  border-radius: 10px;
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 10px;
 }
 
 .button.edit {
-  background-color: #4CAF50; /* green */
+    background-color: #4CAF50; /* green */
 }
 
 .button.delete {
-  background-color: #E53935; /* red */
+    background-color: #E53935; /* red */
 }
 
 /* Container */
 .container {
-  width: 80%;
-  margin: 50px auto;
-  text-align: center;
+    width: 80%;
+    margin: 50px auto;
+    text-align: center;
 }
 
 
 /* Table */
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: #000000;
-  color: white;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #000000;
+    color: white;
 }
 
 th, td {
-  padding: 12px;
-  border: 1px solid #444;
-  text-align: left;
+    padding: 12px;
+    border: 1px solid #444;
+    text-align: left;
 }
 
 th {
-  background-color: #335AAE;
+    background-color: #335AAE;
 }
 
 tr:hover {
-  background-color: #000000;
+    background-color: #000000;
 }
