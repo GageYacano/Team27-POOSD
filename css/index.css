@@ -56,6 +56,7 @@ body {
 }
 
 .text-overlay {
-    background-color: rgba(0, 0, 0, .4); /* black with 50% opacity */
-    padding: 40px 40px;
+    background-color: rgba(0, 0, 0, 0.75); /* black with 50% opacity */
+    border-radius: 25px;
+    /*padding: 40px 40px;*/
 }
