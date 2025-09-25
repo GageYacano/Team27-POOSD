@@ -1,6 +1,6 @@
 /* background + body font style */
 body {
-    background-image: url("../images/background.png");  
+    /*background-image: url("../images/background.png");  */
     background-size: cover;               
     background-repeat: no-repeat;         
     background-attachment: fixed;         
@@ -30,8 +30,8 @@ body {
     width: 50%;
     margin-left: 25%;
     padding: 25px;
-    background-color: rgba(0, 0, 0, .4); /* black with 50% opacity */
-    
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 25px;
 }
 
 /* register display + size */
@@ -40,8 +40,8 @@ body {
     font-size: 30px;
     width: 50%;
     margin-left: 25%;
-    padding: 25px;
-    background-color: rgba(0, 0, 0, .4); /* black with 50% opacity */
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 25px;
     padding: 20px 20px;
 }
 
