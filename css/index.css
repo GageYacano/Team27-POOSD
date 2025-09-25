@@ -1,7 +1,7 @@
 /* page background + body font style */
 body {
     
-    background-image: url("../images/background.png");  
+    /*background-image: url("../images/background.png");  */
     background-size: cover;               
     background-repeat: no-repeat;         
     background-attachment: fixed;         
@@ -56,7 +56,7 @@ body {
 }
 
 .text-overlay {
-    background-color: rgba(0, 0, 0, 0.75); /* black with 50% opacity */
+    background-color: rgba(0, 0, 0, 0.75);
     border-radius: 25px;
     /*padding: 40px 40px;*/
 }
