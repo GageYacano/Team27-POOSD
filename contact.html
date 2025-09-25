@@ -1,47 +1,85 @@
 <html>
+
 <head>
-	<title>COP 4331 Contacts</title>
+	<title>Sharktronauts - Contacts</title>
 	<script type="text/javascript" src="js/code.js"></script>
-    <link href="css/styles.css" rel="stylesheet">	
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	
+	<link href="css/contact.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
 	<script type="text/javascript">
-	document.addEventListener('DOMContentLoaded', function() 
-	{
-		readCookie();
-	}, false);
+		document.addEventListener('DOMContentLoaded', function () {
+			readCookie();
+			pullContacts();
+		}, false);
 	</script>
-	
+
 </head>
+
 <body>
+	<button class="button logout" onclick="doLogout()">Logout</button>
+	<img id="logo" src="images/logo.png" alt="Sharktronauts Logo"></a>
 
-<h1 id="title">COP 4331 Contacts</h1>
+	<h1 id="title"> SHARKTRONAUNTS </h1>
 
-<div id="accessUIDiv">
-	<br />
-	<input type="text" id="searchText" placeholder="Contact To Search For"/>
-	<button type="button" id="searchContactButton" class="buttons" onclick="searchContacts();"> Search Contact </button><br />
-	<span id="contactSearchResult"></span>
-	<p id="contactList">
-	</p>
-</div>
+	<div class="container">
+		<!-- Search bar -->
+		<div class="search-row">
+			<input type="text" id="searchBar" placeholder="Search contacts..." onkeyup="searchContacts()">
+			<button class="button add-contact" onclick="toggleAddContact(true)">Add New Contact</button>
+		</div>
 
-<div id="addContactDiv">
-    <span id="inner-title">ADD CONTACT</span><br />
-    <input type="text" id="contactFirstName" placeholder="First Name" /><br />
-    <input type="text" id="contactLastName" placeholder="Last Name" /><br />
-    <input type="text" id="contactPhone" placeholder="Phone" /><br />
-    <input type="text" id="contactEmail" placeholder="Email" /><br />
-    <button type="button" class="buttons" onclick="addContact();"> Save </button>
-    <button type="button" class="buttons" onclick="toggleAddContact(false);"> Cancel </button>
-    <span id="addContactResult"></span>
-</div>
 
-<div id="loggedInDiv">
-	<span id="userName"></span><br />
-	<button type="button" id="addContactButton" class="buttons" onclick="toggleAddContact(true);">Add Contact</button>
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();"> Log Out </button>
-</div>
+		<p id="contactSearchResult"></p>
+
+		<!-- Adding New Contact-->
+		<div id="addContactDiv" style="display:none;">
+			<input type="text" id="contactFirstName" placeholder="First Name"><br>
+			<input type="text" id="contactLastName" placeholder="Last Name"><br>
+			<input type="email" id="contactEmail" placeholder="Email"><br>
+			<input type="tel" id="contactPhone" placeholder="Phone"><br><br>
+
+			<p id="addContactResult"></p>
+
+			<button class="button" onclick="addContact()">Save Contact</button>
+			<button class="button" onclick="toggleAddContact(false)">Cancel</button>
+		</div>
+
+		<!-- Contacts table -->
+		<table id="contactsTable">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Edit/Delete</th>	
+				</tr>
+			</thead>
+			<tbody id="contactList"></tbody>
+
+		</table>
+		<div id="editContactDiv">
+			<h2>Edit Contact</h2>
+			<label>First Name:</label><br>
+			<input type="text" id="editFirstName"><br>
+			<label>Last Name:</label><br>
+			<input type="text" id="editLastName"><br>
+			<label>Email:</label><br>
+			<input type="text" id="editEmail"><br>
+			<label>Phone:</label><br>
+			<input type="text" id="editPhone"><br><br>
+
+			<p id="editContactResult"></p>
+		
+			<button class="button" onclick="saveEditedContact()">Done</button>
+			<button class="button delete" onclick="toggleEditContact(false)">Cancel</button>
+		</div>
+		
+	</div>
 
 </body>
+
 </html>
