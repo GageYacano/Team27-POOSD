@@ -4,84 +4,81 @@ const extension = 'php';
 let userId = 0;
 let firstName = "";
 let lastName = "";
+let contactToDelete = null;
 
-function doLogin()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	
-	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
-	
-	document.getElementById("loginResult").innerHTML = "";
+// allows user to login into their account
+function doLogin() {
+    userId = 0;
+    firstName = "";
+    lastName = "";
 
-	let tmp = {login:login,password:password};
-//	var tmp = {login:login,password:hash};
-	let jsonPayload = JSON.stringify( tmp );
-	
-	let url = urlBase + '/Login.' + extension;
+    let login = document.getElementById("loginName").value;
+    let password = document.getElementById("loginPassword").value;
+    //	var hash = md5( password );
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try {
-		xhr.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
-		
-				if( userId < 1 ){		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
-				}
-				userId = jsonObject.id;
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
+    document.getElementById("loginResult").innerHTML = "";
 
-				saveCookie();
-	
-				window.location.href = "contact.html";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
+    let tmp = { login: login, password: password };
+    let jsonPayload = JSON.stringify(tmp);
+
+    let url = urlBase + '/Login.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let jsonObject = JSON.parse(xhr.responseText);
+                userId = jsonObject.id;
+
+                if (userId < 1) {
+                    document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                    return;
+                }
+                userId = jsonObject.id;
+                firstName = jsonObject.firstName;
+                lastName = jsonObject.lastName;
+
+                saveCookie();
+
+                window.location.href = "contact.html";
+            }
+        };
+        xhr.send(jsonPayload);
+    }
+    catch (err) {
+        document.getElementById("loginResult").innerHTML = err.message;
+    }
 
 }
 
 // Controls a register window if the user wants to create an account
-function toggleRegister(show)
-{
-	var registerDiv = document.getElementById("registerDiv");
-	var registerResult = document.getElementById("registerResult");
+function toggleRegister(show) {
+    var registerDiv = document.getElementById("registerDiv");
+    var registerResult = document.getElementById("registerResult");
 
-	var loginDiv = document.getElementById("loginDiv");
-	var loginResult = document.getElementById("loginResult");
+    var loginDiv = document.getElementById("loginDiv");
+    var loginResult = document.getElementById("loginResult");
 
-	if (show)
-	{
-		loginDiv.style.display = "none"
-		registerDiv.style.display = "block";
-		registerResult.innerHTML = "";
-	}
-	else
-	{
-		registerDiv.style.display = "none";
-		loginDiv.style.display = "block";
-		loginResult.innerHTML = "";
-	}
+    if (show) {
+        loginDiv.style.display = "none"
+        registerDiv.style.display = "block";
+        registerResult.innerHTML = "";
+    }
+    else {
+        registerDiv.style.display = "none";
+        loginDiv.style.display = "block";
+        loginResult.innerHTML = "";
+    }
 }
 
+// allows user to register with a new account
 function doRegister() {
     var firstName = document.getElementById("regFirstName").value;
     var lastName = document.getElementById("regLastName").value;
-	var username  = document.getElementById("regLogin").value;
-    var password  = document.getElementById("regPassword").value;
+    var username = document.getElementById("regLogin").value;
+    var password = document.getElementById("regPassword").value;
 
 
 
@@ -90,13 +87,13 @@ function doRegister() {
         return;
     }
 
-	let pwError = validatePassword(password);
+    let pwError = validatePassword(password);
     if (pwError) {
         document.getElementById("registerResult").innerHTML = pwError;
         return;
     }
 
-	//var hash = md5(password);
+    //var hash = md5(password);
 
     document.getElementById("registerResult").innerHTML = "";
 
@@ -118,26 +115,23 @@ function doRegister() {
     try {
         xhr.onreadystatechange = function () {
 
-			if (this.readyState == 4)
-            {
-                if (this.status != 200)
-                {
+            if (this.readyState == 4) {
+                if (this.status != 200) {
                     document.getElementById("registerResult").innerHTML = "Server error (" + this.status + ").";
                     return;
                 }
 
                 var json = {};
-                try { json = JSON.parse(xhr.responseText); } catch (e) {}
+                try { json = JSON.parse(xhr.responseText); } catch (e) { }
 
-                if (json.error && json.error.length > 0)
-                {
+                if (json.error && json.error.length > 0) {
                     document.getElementById("registerResult").innerHTML = json.error;
                     return;
                 }
 
                 document.getElementById("registerResult").style.color = "green";
                 document.getElementById("registerResult").innerHTML = "Account created! You can now log in.";
-			}
+            }
         };
 
         xhr.send(jsonPayload);
@@ -146,7 +140,7 @@ function doRegister() {
     }
 }
 
-//  Helper: validate password strength 
+//  Determines if password is valid 
 function validatePassword(password) {
     if (password.length < 8) return "Password must be at least 8 characters long.";
     if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter.";
@@ -156,62 +150,50 @@ function validatePassword(password) {
     return null; // means valid
 }
 
-
-function saveCookie()
-{
-	let minutes = 20;
-	let date = new Date();
-	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+function saveCookie() {
+    let minutes = 20;
+    let date = new Date();
+    date.setTime(date.getTime() + (minutes * 60 * 1000));
+    document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
-function readCookie()
-{
-	userId = -1;
-	let data = document.cookie;
-	let splits = data.split(",");
-	for(var i = 0; i < splits.length; i++) 
-	{
-		let thisOne = splits[i].trim();
-		let tokens = thisOne.split("=");
-		if( tokens[0] == "firstName" )
-		{
-			firstName = tokens[1];
-		}
-		else if( tokens[0] == "lastName" )
-		{
-			lastName = tokens[1];
-		}
-		else if( tokens[0] == "userId" )
-		{
-			userId = parseInt(tokens[1].trim());
-		}
-	}
-	
-	if( userId < 0 )
-	{
-		window.location.href = "index.html";
-	}
-	else
-	{
-//		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
-	}
-}
+function readCookie() {
+    userId = -1;
+    let data = document.cookie;
+    let splits = data.split(",");
+    for (var i = 0; i < splits.length; i++) {
+        let thisOne = splits[i].trim();
+        let tokens = thisOne.split("=");
+        if (tokens[0] == "firstName") {
+            firstName = tokens[1];
+        }
+        else if (tokens[0] == "lastName") {
+            lastName = tokens[1];
+        }
+        else if (tokens[0] == "userId") {
+            userId = parseInt(tokens[1].trim());
+        }
+    }
 
+    if (userId < 0) {
+//        window.location.href = "index.html";
+    }
+    else {
+        //		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+    }
+}
 
 // Returns user to the index page + signs out of account
-function doLogout()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+function doLogout() {
+    userId = 0;
+    firstName = "";
+    lastName = "";
+    document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.href = "index.html";
 }
 
 // Controls a window section where the user can add a contact
-function toggleAddContact(show)
-{
+function toggleAddContact(show) {
     var addDiv = document.getElementById("addContactDiv");
     var table = document.getElementById("contactsTable");
     var msg = document.getElementById("addContactResult");
@@ -226,18 +208,17 @@ function toggleAddContact(show)
     }
 }
 
-
-function addContact()
-{
-	let contactFirst = document.getElementById("contactFirstName").value.trim();
+// allows user to add a new contact
+function addContact() {
+    let contactFirst = document.getElementById("contactFirstName").value.trim();
     let contactLast = document.getElementById("contactLastName").value.trim();
     let email = document.getElementById("contactEmail").value.trim();
     let phone = document.getElementById("contactPhone").value.trim();
 
     document.getElementById("addContactResult").innerHTML = "";
 
-	if (!contactFirst || !contactLast || !email || !phone) {
-		document.getElementById("addContactResult").innerHTML = "All fields are required";
+    if (!contactFirst || !contactLast || !email || !phone) {
+        document.getElementById("addContactResult").innerHTML = "All fields are required";
         return;
     }
 
@@ -252,57 +233,57 @@ function addContact()
     }
 
     let tmp = { contactFirst, contactLast, email, phone, userId };
-	console.log("Sending new contact:", tmp);
+    console.log("Sending new contact:", tmp);
 
-	let jsonPayload = JSON.stringify( tmp );
+    let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + '/CreateContact.' + extension;
-	
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        try {
-            let jsonObject = JSON.parse(xhr.responseText);
-            console.log("CreateContact response:", jsonObject);
+    let url = urlBase + '/CreateContact.' + extension;
 
-            if (jsonObject.error && jsonObject.error.length > 0) {
-                document.getElementById("addContactResult").innerHTML = jsonObject.error;
-                return;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            try {
+                let jsonObject = JSON.parse(xhr.responseText);
+                console.log("CreateContact response:", jsonObject);
+
+                if (jsonObject.error && jsonObject.error.length > 0) {
+                    document.getElementById("addContactResult").innerHTML = jsonObject.error;
+                    return;
+                }
+
+                document.getElementById("addContactResult").innerHTML = "Contact has been added";
+
+                // Clear inputs
+                document.getElementById("contactFirstName").value = "";
+                document.getElementById("contactLastName").value = "";
+                document.getElementById("contactEmail").value = "";
+                document.getElementById("contactPhone").value = "";
+
+                toggleAddContact(false);
+
+                pullContacts();
+            } catch (err) {
+                console.error("Invalid JSON from backend:", xhr.responseText);
+                document.getElementById("addContactResult").innerHTML = "Server error — check backend logs.";
             }
-
-            document.getElementById("addContactResult").innerHTML = "Contact has been added";
-
-            // Clear inputs
-            document.getElementById("contactFirstName").value = "";
-            document.getElementById("contactLastName").value = "";
-            document.getElementById("contactEmail").value = "";
-            document.getElementById("contactPhone").value = "";
-
-            toggleAddContact(false);
-
-            pullContacts();
-        } catch (err) {
-            console.error("Invalid JSON from backend:", xhr.responseText);
-            document.getElementById("addContactResult").innerHTML = "Server error — check backend logs.";
         }
-    }
-	
 
-};
-xhr.send(jsonPayload);
-	
+
+    };
+    xhr.send(jsonPayload);
+
 }
 
-// --- Validate email format ---
+// ensure valid email format
 function validateEmail(email) {
     // Simple regex for common email patterns
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
 }
 
-// --- Validate phone format ---
+// ensure valid phone number format
 function validatePhone(phone) {
     const digits = phone.replace(/\D/g, ""); // strip non-digits
     return digits.length === 10;
@@ -324,7 +305,7 @@ function searchContacts() {
             const txtValue_fn = td_fn.textContent || td_fn.innerText;
             const txtValue_ln = td_ln.textContent || td_ln.innerText;
 
-            tr[i].style.display = "none"; 
+            tr[i].style.display = "none";
 
             for (let selection of selections) {
                 if (
@@ -358,16 +339,26 @@ function pullContacts() {
 
                 if (jsonObject.error && jsonObject.error.length > 0) {
                     document.getElementById("contactSearchResult").innerHTML = jsonObject.error;
+                    document.getElementById("contactSearchResult").style.display = "block";
+                    document.getElementById("contactsTable").style.display = "none";
                     return;
                 }
+
+                
 
                 if (!jsonObject.results || jsonObject.results.length === 0) {
-                    document.getElementById("contactSearchResult").innerHTML = "No contacts found.";
+                    document.getElementById("contactSearchResult").innerHTML = "No contacts yet. Add one to get started!";
+                    document.getElementById("contactSearchResult").style.display = "block";
+                    document.getElementById("contactsTable").style.display = "none";
                     return;
+                } else {
+                    document.getElementById("contactSearchResult").style.display = "none";
+                    document.getElementById("contactsTable").style.display = "table";
                 }
 
+
                 jsonObject.results.forEach(c => {
-					console.log(c);
+                    console.log(c);
                     let row = document.createElement("tr");
 
                     let td_first = document.createElement("td");
@@ -375,47 +366,41 @@ function pullContacts() {
                     row.appendChild(td_first);
 
                     let td_last = document.createElement("td");
-                    td_last.textContent  = c.LastName || c.lastName || "";
+                    td_last.textContent = c.LastName || c.lastName || "";
 
                     row.appendChild(td_last);
 
                     let td_email = document.createElement("td");
-					td_email.textContent = c.Email || c.email || "";
+                    td_email.textContent = c.Email || c.email || "";
                     row.appendChild(td_email);
 
                     let td_phone = document.createElement("td");
-					let rawPhone = c.Phone || c.phone || "";
-					td_phone.textContent = formatPhoneNumber(rawPhone);
+                    let rawPhone = c.Phone || c.phone || "";
+                    td_phone.textContent = formatPhoneNumber(rawPhone);
 
                     row.appendChild(td_phone);
 
-					let td_actions = document.createElement("td");
+                    let td_actions = document.createElement("td");
 
-					// Edit button
-					let editBtn = document.createElement("button");
-					editBtn.className = "button small edit";
-					editBtn.onclick = function () {
-						editContact(c.Contact_ID, c.FirstName || c.firstName, c.LastName || c.lastName, c.Email || c.email, c.Phone || c.phone);
-					};
+                    // Edit button
+                    let editBtn = document.createElement("button");
+                    editBtn.className = "button small edit";
+                    editBtn.setAttribute("aria-label", "Edit contact");
+                    editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+                    editBtn.onclick = function () {
+                        editContact(c.ID, c.FirstName || c.firstName, c.LastName || c.lastName, c.Email || c.email, c.Phone || c.phone);
+                    };
+                    td_actions.appendChild(editBtn);
 
-					let editIcon = document.createElement("i");
-					editIcon.className = "fas fa-pencil-alt";
-					editBtn.appendChild(editIcon);
+                    // Delete button
+                    let deleteBtn = document.createElement("button");
+                    deleteBtn.className = "button small delete";
+                    deleteBtn.setAttribute("aria-label", "Delete contact");
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                    deleteBtn.onclick = function () { showDeleteConfirm(c.ID); };
+                    td_actions.appendChild(deleteBtn);
 
-					td_actions.appendChild(editBtn);
-
-					// Delete button
-					let deleteBtn = document.createElement("button");
-					deleteBtn.className = "button small delete";
-					deleteBtn.onclick = function () { deleteContact(c.Contact_ID); };
-
-					let deleteIcon = document.createElement("i");
-					deleteIcon.className = "fas fa-trash";
-					deleteBtn.appendChild(deleteIcon);
-
-					td_actions.appendChild(deleteBtn);
-
-					row.appendChild(td_actions);
+                    row.appendChild(td_actions);
 
                     contactList.appendChild(row);
                 });
@@ -427,14 +412,16 @@ function pullContacts() {
     }
 }
 
+// prints the phone number in the contacts table in correct format
 function formatPhoneNumber(phone) {
     const digits = phone.replace(/\D/g, ""); // remove all non-digits
     if (digits.length === 10) {
-        return `(${digits.substring(0,3)}) ${digits.substring(3,6)}-${digits.substring(6)}`;
+        return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6)}`;
     }
     return phone; // fallback if not 10 digits
 }
 
+// controls the pop up window when user wants to edit a contact
 function toggleEditContact(show) {
     var editDiv = document.getElementById("editContactDiv");
     var table = document.getElementById("contactsTable");
@@ -442,30 +429,31 @@ function toggleEditContact(show) {
 
     if (show) {
         editDiv.style.display = "block";
-        table.style.display = "none";   
+        table.style.display = "none";
         if (msg) msg.innerHTML = "";
     } else {
         editDiv.style.display = "none";
-        table.style.display = "table";  
+        table.style.display = "table";
     }
 }
 
-
+// autofills the current contact information into edit contact window
 function editContact(id, first, last, email, phone) {
     editingContactId = id;
 
     // Fill the form directly
     document.getElementById("editFirstName").value = first || "";
-    document.getElementById("editLastName").value  = last || "";
-    document.getElementById("editEmail").value     = email || "";
-    document.getElementById("editPhone").value     = phone || "";
+    document.getElementById("editLastName").value = last || "";
+    document.getElementById("editEmail").value = email || "";
+    document.getElementById("editPhone").value = phone || "";
 
     toggleEditContact(true);
 }
 
+// saves edits controlled by the user for a given contact
 function saveEditedContact() {
     let first = document.getElementById("editFirstName").value.trim();
-    let last  = document.getElementById("editLastName").value.trim();
+    let last = document.getElementById("editLastName").value.trim();
     let email = document.getElementById("editEmail").value.trim();
     let phone = document.getElementById("editPhone").value.trim();
 
@@ -506,7 +494,7 @@ function saveEditedContact() {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log("Update response:", xhr.responseText);
-			
+
             try {
                 let jsonObject = JSON.parse(xhr.responseText);
                 if (jsonObject.error && jsonObject.error.length > 0) {
@@ -523,11 +511,8 @@ function saveEditedContact() {
     xhr.send(jsonPayload);
 }
 
-
+// deletes a user sepecifed contact
 function deleteContact(id) {
-    if (!confirm("Are you sure you want to delete this contact?")) {
-        return;
-    }
 
     let tmp = { id: id };
     let jsonPayload = JSON.stringify(tmp);
@@ -542,6 +527,8 @@ function deleteContact(id) {
             if (this.readyState == 4 && this.status == 200) {
                 console.log("Delete response:", xhr.responseText);
                 pullContacts(); // refresh contacts after delete
+            } else {
+                console.error("Delete failed with status", this.status);
             }
         };
         xhr.send(jsonPayload);
@@ -549,4 +536,28 @@ function deleteContact(id) {
         console.log(err.message);
     }
 }
+
+// controls pop up window verifying that the user wants to delete a contact
+function showDeleteConfirm(id) {
+    contactToDelete = id;
+    document.getElementById("deleteConfirmDiv").style.display = "block";
+}
+
+// controls pop up window verifying that the user wants to delete a contact
+function deletePopup() {
+    document.getElementById("confirmDeleteBtn").addEventListener("click", function() {
+        if (contactToDelete !== null) {
+            console.log("Deleting contact ID:", contactToDelete);
+            deleteContact(contactToDelete); // call your existing delete function
+            contactToDelete = null;
+        }
+        document.getElementById("deleteConfirmDiv").style.display = "none";
+    });
+
+    document.getElementById("cancelDeleteBtn").addEventListener("click", function() {
+        contactToDelete = null;
+        document.getElementById("deleteConfirmDiv").style.display = "none";
+    });
+}
+
 
