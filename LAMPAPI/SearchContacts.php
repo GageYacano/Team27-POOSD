@@ -27,15 +27,17 @@
 			}
 			$searchCount++;
 			//$searchResults .= '"' . $row["FirstName"] . '"';
-            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '",
-                                "LastName" : "' . $row["LastName"] . '",
-                                "Phone" : "' . $row["Phone"] . '",
-                                "Email" : "' . $row["Email"] . '"}';
+            $searchResults .= '{"ID" : "' . $row["ID"] . '",
+                    "FirstName" : "' . $row["FirstName"] . '",
+                    "LastName" : "' . $row["LastName"] . '",
+                    "Phone" : "' . $row["Phone"] . '",
+                    "Email" : "' . $row["Email"] . '"}';
+
 		}
 		
 		if( $searchCount == 0 )
 		{
-			returnWithError( "No Records Found" );
+			returnWithError( "No Contacts Found" );
 		}
 		else
 		{
