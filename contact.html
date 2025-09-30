@@ -1,8 +1,6 @@
-<html>
-
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<title>Sharktronauts - Contacts</title>
 	<script type="text/javascript" src="js/code.js"></script>
 	<link href="css/contact.css" rel="stylesheet">
@@ -15,11 +13,12 @@
 		document.addEventListener('DOMContentLoaded', function () {
 			readCookie();
 			pullContacts();
+			deletePopup();
 		}, false);
 	</script>
 
 	<!--Three js includes-->
-	<script type="module" crossorigin src="/dist/assets/index-BGmmSITQ.js"></script>
+	<script type="module" crossorigin src="/dist/assets/index-B6zZZVXP.js"></script>
 	<link rel="stylesheet" crossorigin href="/dist/assets/index-CX9ELa0q.css">
 </head>
 
@@ -29,17 +28,17 @@
 
 	<h1 id="title"> SHARKTRONAUNTS </h1>
 
+	<!-- Search bar and Add contact button -->
 	<div class="container">
-		<!-- Search bar -->
 		<div class="search-row">
 			<input type="text" id="searchBar" placeholder="Search contacts..." onkeyup="searchContacts()">
 			<button class="button add-contact" onclick="toggleAddContact(true)">Add New Contact</button>
 		</div>
 
-
+		<!-- If no contacts exist -->
 		<p id="contactSearchResult"></p>
 
-		<!-- Adding New Contact-->
+		<!-- Adding New Contact window-->
 		<div id="addContactDiv" style="display:none;">
 			<input type="text" id="contactFirstName" placeholder="First Name"><br>
 			<input type="text" id="contactLastName" placeholder="Last Name"><br>
@@ -66,8 +65,9 @@
 			<tbody id="contactList"></tbody>
 
 		</table>
+
+		<!-- Edit Contact window -->
 		<div id="editContactDiv">
-			<h2>Edit Contact</h2>
 			<label>First Name:</label><br>
 			<input type="text" id="editFirstName"><br>
 			<label>Last Name:</label><br>
@@ -82,9 +82,13 @@
 			<button class="button" onclick="saveEditedContact()">Done</button>
 			<button class="button delete" onclick="toggleEditContact(false)">Cancel</button>
 		</div>
-		
+
+		<!-- Delete Confirmation Window -->
+		<div id="deleteConfirmDiv">
+			<p>Are you sure you want to delete this contact?</p>
+			<button class="button delete" id="confirmDeleteBtn">Delete</button>
+			<button class="button" id="cancelDeleteBtn">Cancel</button>
+		</div>
 	</div>
-
 </body>
-
 </html>
